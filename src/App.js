@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Button, Card, Col, Form, Input, Row } from 'antd'
+import { CloseOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Form, Input, Row, message } from 'antd'
 
 const App = () => {
   const [naveen, setNaveen] = useState({ name: '', age: '', number: '' })
@@ -13,6 +14,18 @@ const App = () => {
   }
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo)
+  }
+  const deleteHandler = (value) => {
+    let temp = []
+    if (value) {
+      if (state?.length > 0) {
+        state?.map((data) => data.name !== value.name && temp.push(data))
+      } else {
+        temp = []
+      }
+    }
+    setState(temp)
+    message.success('Deleted successfully')
   }
   return (
     <Row gutter={16}>
@@ -131,6 +144,9 @@ const App = () => {
                   width: '100%',
                 }}
               >
+                <div style={{ textAlign: 'end', color: 'red' }}>
+                  <CloseOutlined onClick={() => deleteHandler(dt)} />
+                </div>
                 <Row>
                   <Col span={12}>Name:</Col>
                   <Col span={12}>{dt.name}</Col>
